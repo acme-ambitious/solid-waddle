@@ -30,14 +30,13 @@ jobs:
         with:
           token: ${{ secrets.CLOUD_JAVA_BOT_TOKEN }}          
       - if: always()
-        run: ls -i .github/scripts/update_generation_config.sh
+        run: stat .github/scripts/update_generation_config.sh
       - name: Update params in generation config to latest
         shell: bash
         run: |
           set -x
           [ -z "$(git config user.email)" ] && git config --global user.email "cloud-java-bot@google.com"
           [ -z "$(git config user.name)" ] && git config --global user.name "cloud-java-bot"
-          ls -i .github/scripts/update_generation_config.sh
           bash .github/scripts/update_generation_config.sh \
             --base_branch "${base_branch}"\
             --repo ${{ github.repository }}
@@ -45,4 +44,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CLOUD_JAVA_BOT_TOKEN }}
       - if: always()
-        run: ls -i .github/scripts/update_generation_config.sh          
+        run: stat .github/scripts/update_generation_config.sh          
