@@ -79,8 +79,10 @@ pr_num=$(gh pr list -s open -H "${current_branch}" -q . --json number | jq ".[] 
 # create a branch if there's no open pull request associated with the
 # branch; otherwise checkout the pull request.
 if [ -z "${pr_num}" ]; then
+   echo "creating branch"
   git checkout -b "${current_branch}"
 else
+    echo "checking out pr"
   gh pr checkout "${pr_num}"
 fi
 
