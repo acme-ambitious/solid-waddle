@@ -119,7 +119,7 @@ if [ -z "${pr_num}" ]; then
   gh pr create --title "${title}" --head "${current_branch}" --body "${title}" --base "${base_branch}"
 else
   git push
-  gh pr edit "${pr_num}" --title "${title}" --body "${title}"
+  # gh pr edit "${pr_num}" --title "${title}" --body "${title}"
 fi
 
 
