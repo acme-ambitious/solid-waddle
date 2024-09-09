@@ -89,35 +89,3 @@ fi
 mkdir tmp-googleapis
 # use partial clone because only commit history is needed.
 git clone --filter=blob:none https://github.com/googleapis/googleapis.git tmp-googleapis
-pushd tmp-googleapis
-git pull
-latest_commit=$(git rev-parse HEAD)
-popd
-rm -rf tmp-googleapis
-update_config "googleapis_commitish" "${latest_commit}" "${generation_config}"
-
-# update gapic-generator-java version to the latest
-latest_version=$(get_latest_released_version "com.google.api" "gapic-generator-java")
-update_config "gapic_generator_version" "${latest_version}" "${generation_config}"
-
-# update libraries-bom version to the latest
-latest_version=$(get_latest_released_version "com.google.cloud" "libraries-bom")
-update_config "libraries_bom_version" "${latest_version}" "${generation_config}"
-
-git add "${generation_config}"
-changed_files=$(git diff --cached --name-only)
-if [[ "${changed_files}" == "" ]]; then
-    echo "The latest generation config is not changed."
-    echo "Skip committing to the pull request."
-    exit 0
-fi
-git commit -m "${title}"
-if [ -z "${pr_num}" ]; then
-  git remote add remote_repo https://cloud-java-bot:"${GH_TOKEN}@github.com/${repo}.git"
-  git fetch -q --unshallow remote_repo
-  git push -f remote_repo "${current_branch}"
-  gh pr create --title "${title}" --head "${current_branch}" --body "${title}" --base "${base_branch}"
-else
-  git push
-  # gh pr edit "${pr_num}" --title "${title}" --body "${title}"
-fi
