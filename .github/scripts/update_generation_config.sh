@@ -86,7 +86,6 @@ else
   gh pr checkout "${pr_num}"
 fi
 
-cat .github/scripts/update_*
 mkdir tmp-googleapis
 # use partial clone because only commit history is needed.
 git clone --filter=blob:none https://github.com/googleapis/googleapis.git tmp-googleapis
