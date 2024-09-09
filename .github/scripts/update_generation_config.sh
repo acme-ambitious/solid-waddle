@@ -111,6 +111,7 @@ if [[ "${changed_files}" == "" ]]; then
     echo "Skip committing to the pull request."
     exit 0
 fi
+echo "FOOBAR"
 git commit -m "${title}"
 if [ -z "${pr_num}" ]; then
   git remote add remote_repo https://cloud-java-bot:"${GH_TOKEN}@github.com/${repo}.git"
